@@ -66,6 +66,11 @@ a.bar:hover, a.bar:focus-visible { transform: scaleY(1.5); outline: none; }
 .links a::after { content: " \2192"; font-weight: 400; }
 .links a:hover { text-decoration: underline; }
 
+/* The Google Sites embed keeps a fixed height-to-width ratio (about 1.9155). Scale the page with its width so it fills the frame exactly. */
+@media (min-width: 760px) {
+  html { zoom: min(calc(100vw / 970px), 1.6); }
+  body { min-height: calc(1.9 * 970px); }
+}
 @media (max-width: 760px) {
   :root { --namew: 104px; }
   .m { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 18px 0; }
@@ -89,15 +94,16 @@ a.bar:hover, a.bar:focus-visible { transform: scaleY(1.5); outline: none; }
   <section class="group f-forecast"><h2>Forecast</h2><article class="m" id="sonny"><h3>Sonny</h3><div><p class="desc">A compute-light global weather backbone for medium-range forecasting. Sonny-ENS and KNOU-S2S grow from it, and Pyree borrows its backbone design.</p><p class="fig"><b>5.5 days</b>to train to convergence on one NVIDIA A40 GPU, on a 1.5° global grid with 6-hourly steps.</p></div><div class="links"><a href="https://arxiv.org/abs/2603.21284" target="_blank" rel="noopener">Paper</a><a href="https://github.com/jmj2316/Sonny" target="_blank" rel="noopener">Code</a><a href="https://huggingface.co/Francismj/sonny" target="_blank" rel="noopener">Weights</a></div></article><article class="m" id="sonny-ens"><h3>Sonny-ENS</h3><div><p class="desc">A probabilistic ensemble of three Sonny-lineage models. A 30-day rollout takes 3.2 seconds per member on one A40.</p><p class="fig"><b>20 of 20</b>variable and lead-time scores with lower CRPS than the ECMWF IFS ensemble (2020, 18 members).</p></div><div class="links"></div></article><article class="m" id="knou-s2s"><h3>KNOU-S2S</h3><div><p class="desc">Subseasonal-to-seasonal prediction from a slow clock and two fast clocks that are fused into one ensemble.</p><p class="fig"><b>48 of 48</b>global RMSE and ACC comparisons beating the IFS extended-range ensemble mean, weeks 3 to 6 (2022 issue dates).</p></div><div class="links"></div></article><article class="m" id="rescene"><h3>Rescene</h3><div><p class="desc">A small corrector that turns a frozen neural weather backbone into a stable climate emulator.</p><p class="fig"><b>0.4 M</b>parameters wrapped around the frozen backbone. NeurIPS 2026 Tackling Climate Change with ML workshop.</p></div><div class="links"><a href="https://github.com/jmj2316/rescene-dual-clock" target="_blank" rel="noopener">Code</a></div></article></section><section class="group f-hazard"><h2>Hazard</h2><article class="m" id="pyree"><h3>Pyree</h3><div><p class="desc">Global wildfire forecasts at 0.25° that use pixel-level fire memory and a recency-weighted climatology.</p><p class="fig"><b>0.724 to 0.642</b>AUPRC from 8-day to 128-day lead on SeasFire. The reproduced TeleViT baseline scores 0.624 to 0.607.</p></div><div class="links"><a href="https://github.com/jmj2316/pyree" target="_blank" rel="noopener">Code</a></div></article><article class="m" id="knou-flood"><h3>KNOU-Flood</h3><div><p class="desc">Lead-aware probabilistic streamflow forecasts that bridge the reanalysis-to-forecast gap.</p><p class="fig"><b>0.655 / 0.550 / 0.481</b>median KGE′ at 1, 5 and 10 days over about 2,100 stations. The AIFL-recipe baseline scores 0.618 / 0.459 / 0.340.</p></div><div class="links"><a href="https://github.com/jmj2316/KNOU-Flood" target="_blank" rel="noopener">Code</a></div></article></section><section class="group f-tools"><h2>Resolution and insight</h2><article class="m" id="orolift"><h3>OroLIFT</h3><div><p class="desc">Learned downscaling from 5.625° to 1.5° on 69 variables, with an exact consistency projection onto the coarse input.</p><p class="fig"><b>1.83 M</b>parameters. The output reproduces its coarse input to about 1e-7.</p></div><div class="links"><a href="orolift.html" target="_blank" rel="noopener">Interactive demo</a><a href="https://github.com/jmj2316/orolift" target="_blank" rel="noopener">Code</a></div></article><article class="m" id="kan-sae"><h3>KAN-SAE</h3><div><p class="desc">Sparse autoencoders built from B-spline units that open up Sonny's internal features.</p><p class="fig">Feature atlas, case studies and causal steering.</p></div><div class="links"></div></article><article class="m" id="kaflow"><h3>KAFlow</h3><div><p class="desc">Low-rank Kolmogorov-Arnold generator flows for interpretable operator learning, with closed-form distillation of what was learned.</p><p class="fig"><b>3.4 to 11×</b>lower out-of-distribution loss than the Kolmogorov-Arnold neural operator on synthetic benchmarks.</p></div><div class="links"><a href="https://arxiv.org/abs/2610.13028" target="_blank" rel="noopener">Paper</a></div></article></section>
 </div>
 <script>
-/* Inside the Google Site the embed keeps a fixed height-to-width ratio (about 1.9155), so the page scales with its width to fill it exactly. */
+/* Fallback for browsers without CSS unit division: scale with the frame width when CSS did not. */
 (function () {
   if (window.top === window.self) return;
-  var D = 970, A = 1.9155, root = document.documentElement;
+  var D = 970, A = 1.9, root = document.documentElement;
   function fit() {
-    root.style.zoom = ""; root.style.overflowY = "hidden";
-    var w = root.clientWidth;
-    if (w >= 760) { root.style.zoom = w / D; document.body.style.minHeight = Math.round(A * D) + "px"; }
-    else { root.style.overflowY = ""; document.body.style.minHeight = ""; }
+    var w = window.innerWidth;
+    if (w < 760) { root.style.zoom = ""; return; }
+    var z = parseFloat(getComputedStyle(root).zoom);
+    if (z && Math.abs(z - w / D) < 0.02) return;
+    root.style.zoom = w / D; document.body.style.minHeight = Math.round(A * D) + "px";
   }
   fit();
   window.addEventListener("resize", fit);
