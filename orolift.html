@@ -7,46 +7,35 @@
 <title>OroLIFT Downscaling Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap">
 <style>
 /* Layout: one wide comparison canvas with a draggable divider, controls above, RMSE bars beside it. */
 :root {
-  --bg: #F4F7FA; --surface: #FFFFFF; --ink: #0F1B2D; --muted: #566579; --line: #D3DCE6;
-  --accent: #0A6E8A; --accent-soft: #DCEEF4; --good: #12806A;
-  --bar: #9FB0C3;
-  --font-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --canvas-line: rgba(15, 27, 45, 0.55);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0B1420; --surface: #121E2D; --ink: #E6EDF5; --muted: #8DA0B5; --line: #25364A;
-    --accent: #4FC3E0; --accent-soft: #123447; --good: #4FD1B0; --bar: #3C5068;
-    --canvas-line: rgba(230, 237, 245, 0.6); color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0B1420; --surface: #121E2D; --ink: #E6EDF5; --muted: #8DA0B5; --line: #25364A;
-  --accent: #4FC3E0; --accent-soft: #123447; --good: #4FD1B0; --bar: #3C5068;
-  --canvas-line: rgba(230, 237, 245, 0.6); color-scheme: dark;
+  --bg: #FFFFFF; --surface: #FFFFFF; --ink: #1C1C1C; --muted: #5F6368; --line: #E6E8EB;
+  --accent: #182A69; --accent-soft: #E8ECF7; --good: #12806A; --bar: #B9C0D6;
+  --font-head: "Merriweather", Georgia, "Times New Roman", serif;
+  --font-body: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --canvas-line: rgba(28, 28, 28, 0.55);
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  font-family: var(--font-body); font-size: 14px; line-height: 1.55;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 24px 40px;
 }
 .wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
 header { display: flex; flex-direction: column; gap: 6px; }
-.kicker { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-h1 { margin: 0; font-size: clamp(26px, 4.4vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; text-wrap: balance; }
-.lede { margin: 0; color: var(--muted); max-width: 66ch; }
+.kicker { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 0; font-family: var(--font-head); font-size: clamp(24px, 4vw, 32px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 66ch; font-size: 15px; }
 .controls { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: flex-end; }
 .group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.group > span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.group > span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .seg { display: flex; flex-wrap: wrap; gap: 6px; }
 .seg button, select {
   font: inherit; font-size: 13.5px; color: var(--ink); background: var(--surface);
@@ -71,7 +60,7 @@ canvas { display: block; width: 100%; height: auto; cursor: ew-resize; }
 .probe { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--font-mono); font-size: 12.5px; min-height: 20px; color: var(--muted); }
 .probe b { color: var(--ink); font-weight: 500; }
 aside { display: flex; flex-direction: column; gap: 10px; }
-aside h2 { margin: 0; font-size: 14px; font-weight: 600; }
+aside h2 { margin: 0; font-family: var(--font-head); font-size: 15px; font-weight: 700; }
 .rm { display: flex; flex-direction: column; gap: 7px; }
 .row { display: grid; grid-template-columns: 112px minmax(0, 1fr) 52px; gap: 8px; align-items: center; font-size: 12.5px; }
 .row .nm { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -89,7 +78,7 @@ footer a { color: var(--accent); }
 <body>
 <div class="wrap">
   <header>
-    <div class="kicker">A4G Labs · Resolution</div>
+    <div class="kicker">A4G Model Atlas · Resolution</div>
     <h1>OroLIFT Downscaling Demo</h1>
     <p class="lede">The model receives a 5.625° field (the coarse panel) and produces 1.5°. Drag the divider to compare any two methods against ERA5. The same four weather situations from the test year 2020 are used for every method.</p>
   </header>
@@ -298,7 +287,6 @@ footer a { color: var(--accent); }
   cv.addEventListener("pointerup", function () { dragging = false; });
   document.getElementById("split").addEventListener("input", function (e) { setSplit(e.target.value / 100); });
   var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(rebuild, 150); });
-  if (window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
 
   fetch("data/orolift.json").then(function (r) { return r.json(); }).then(function (d) {
     D = d; state.v = d.cases[0].default_var; buttons(); selects(); rebuild();
