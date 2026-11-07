@@ -29,9 +29,7 @@ canvas.bg { position: fixed; inset: 0; width: 100%; height: 100%; display: block
 main { position: relative; z-index: 2; }
 h1, h2 { font-family: var(--display); font-weight: 900; letter-spacing: -.01em; text-wrap: balance; margin: 0; }
 p { margin: 0; }
-.eyebrow { font: 500 12px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--copper); }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-.note { color: var(--muted); font-size: 13px; line-height: 1.45; }
 button, .btn { font: 500 13px/1 var(--body); color: var(--fg); background: rgba(10, 21, 36, .78); border: 1px solid var(--line);
   border-radius: 4px; padding: 9px 12px; cursor: pointer; white-space: nowrap; }
 button:hover { border-color: var(--copper); }
@@ -39,38 +37,36 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
 button[aria-pressed="true"] { background: var(--copper); border-color: var(--copper); color: #1a0f06; }
 a { color: var(--copper); }
 
-/* hero */
+.ico { width: 36px; height: 36px; padding: 0; display: inline-grid; place-items: center; border-radius: 50%; flex: none; }
+#about { position: fixed; top: 12px; right: max(12px, env(safe-area-inset-right, 0px)); z-index: 4; font: italic 700 15px/1 var(--display); }
+
+/* hero: the planet, a name, one line */
 .hero-gap { display: none; }
-#hero { min-height: 100svh; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 22px;
-  padding-block: 72px 40px; padding-left: var(--gutter-l); padding-right: var(--gutter-r); touch-action: pan-y; cursor: grab; }
-#hero > * { max-width: min(560px, 46vw); }
-#hero h1 { font-size: clamp(40px, 5.1vw, 78px); line-height: 1.04; white-space: nowrap; }
-#hero .lead { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.5; }
-.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; border-top: 1px solid var(--line); padding-top: 16px; }
-.facts b { display: block; font: 500 clamp(17px, 1.5vw, 22px)/1.15 var(--mono); white-space: nowrap; color: var(--fg); margin-bottom: 4px; }
-.facts span { color: var(--muted); font-size: 13px; line-height: 1.35; display: block; }
-.scrollcue { color: var(--copper); text-decoration: none; font: 500 13px/1 var(--mono); }
-.clock { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-#heroClock { font: 500 13px/1.2 var(--mono); color: var(--fg); min-width: 25ch; }
+#hero { position: relative; min-height: 100svh; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end; gap: 12px;
+  padding-block: 40px 56px; padding-left: var(--gutter-l); padding-right: var(--gutter-r); touch-action: pan-y; cursor: grab; }
+#hero > :not(.scrollcue) { max-width: 360px; }
+#hero h1 { font-size: clamp(34px, 3.2vw, 46px); line-height: 1.05; white-space: nowrap; }
+#hero .lead { font-size: 16px; line-height: 1.45; color: var(--muted); }
+.clock { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px; }
+#heroClock { flex: 1 0 100%; font: 500 13px/1.2 var(--mono); color: var(--fg); }
+.scrollcue { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); width: 28px; height: 28px; color: var(--muted); }
 #tags { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
 .stag { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; white-space: nowrap; font: 500 11.5px/1 var(--mono); color: var(--fg); will-change: transform; }
 .stag[hidden] { display: none; }
 .stag i { display: block; width: 22px; height: 22px; margin: -11px 0 -11px -11px; border-radius: 50%; border: 1.5px solid var(--copper); box-shadow: 0 0 10px rgba(224,154,95,.65); }
 .stag span { background: rgba(5, 11, 20, .72); padding: 4px 6px; border-radius: 3px; }
+.stag.quiet span { display: none; }
 
 /* the tropics: one pinned stage, two panes that cross-fade with scroll */
 .stage { position: relative; }
-#tropics { height: 320vh; }
+#tropics { height: 280vh; }
 .pin { position: sticky; top: 0; height: 100svh; box-sizing: border-box; }
-#tropics .pin { display: grid; grid-template-rows: auto minmax(0, 1fr) clamp(150px, 29vh, 270px); gap: 10px; padding-block: 14px; }
+#tropics .pin { display: grid; grid-template-rows: auto minmax(0, 1fr) clamp(96px, 19vh, 180px); gap: 10px; padding-block: 12px; }
 .stack { display: grid; min-width: 0; min-height: 0; }
 .stack > * { grid-area: 1 / 1; min-width: 0; min-height: 0; transition: opacity .25s linear; }
 .gut { padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
-.head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 28px; }
-.head .text { flex: 1 1 520px; min-width: 0; display: grid; gap: 5px; }
-.head h2 { font-size: clamp(21px, 2.5vw, 36px); line-height: 1.14; }
-.head p { color: var(--muted); font-size: clamp(13px, 1.05vw, 15px); line-height: 1.42; max-width: 92ch; }
-.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-height: 36px; padding-right: 44px; }
+.scene { font: 500 12px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--copper); margin-right: auto; }
 #band { position: relative; min-height: 0; cursor: crosshair; touch-action: none; }
 #band.off { cursor: default; touch-action: pan-y; }
 #band .tick { position: absolute; font: 400 11px/1 var(--mono); color: rgba(226, 236, 243, .72); pointer-events: none; transform: translateX(-50%); bottom: 2px; white-space: nowrap; }
@@ -78,86 +74,64 @@ a { color: var(--copper); }
 #ninoLabel { position: absolute; font: 500 11px/1 var(--mono); color: var(--fg); pointer-events: none; transform: translate(-50%, -100%); white-space: nowrap; }
 #hint { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); font: 500 13px/1.2 var(--body); background: rgba(5, 11, 20, .72); border: 1px solid var(--copper); color: var(--fg);
   padding: 7px 11px; border-radius: 4px; pointer-events: none; white-space: nowrap; transition: opacity .4s; }
-.lower { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 14px; height: 100%; box-sizing: border-box; }
-.panel { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 4px; min-width: 0; min-height: 0; }
-.panel .cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 12.5px; line-height: 1.25; color: var(--muted); }
-.panel .cap b { color: var(--fg); font-weight: 600; }
-.panel canvas { width: 100%; height: 100%; display: block; min-height: 0; background: var(--deep); border-radius: 3px; }
+.lower { height: 100%; box-sizing: border-box; }
+.lower canvas { width: 100%; height: 100%; display: block; min-width: 0; min-height: 0; background: var(--deep); border-radius: 3px; }
+#lowerE { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; }
 .legend { display: inline-flex; align-items: center; gap: 6px; font: 400 11px/1 var(--mono); color: var(--muted); white-space: nowrap; }
 .legend i { display: block; width: 104px; height: 8px; border-radius: 1px; }
-.tabs { display: flex; gap: 6px; }
-.tabs button { padding: 7px 10px; font-size: 12px; }
-
-/* futures */
-#future { height: 300vh; }
-#future .pin { display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr) minmax(0, 330px); grid-template-rows: minmax(0, 1fr) auto; gap: 12px 16px; padding-block: 28px 16px;
-  padding-left: var(--gutter-l); padding-right: var(--gutter-r); touch-action: pan-y; cursor: grab; }
-.fut-left { display: grid; gap: 14px; align-content: start; }
-.fut-left h2 { font-size: clamp(30px, 3.3vw, 50px); line-height: 1.08; }
-.fut-left p { color: var(--muted); font-size: 15px; line-height: 1.5; }
-.fut-right { grid-column: 3; display: grid; gap: 12px; align-content: start; cursor: default; }
-.seg { display: inline-flex; flex-wrap: wrap; gap: 6px; }
-#yearBig { font: 500 clamp(44px, 5.2vw, 76px)/1 var(--mono); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-table.read { border-collapse: collapse; width: 100%; font-size: 13px; line-height: 1.25; }
-table.read th, table.read td { padding: 8px 0 8px 10px; border-top: 1px solid var(--line); text-align: right; font-weight: 400; vertical-align: baseline; }
-table.read th:first-child, table.read td:first-child { text-align: left; padding-left: 0; color: var(--muted); }
-table.read thead th { border-top: 0; font: 500 12px/1 var(--mono); }
-table.read td + td { font: 500 15px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+.bignum { font: 500 clamp(40px, 5vw, 76px)/1 var(--mono); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.lab { font: 400 12.5px/1.3 var(--mono); color: var(--muted); margin-top: 6px; }
 .c1 { color: var(--cool); } .c3 { color: var(--warm); }
-.summary { font-size: 14px; line-height: 1.45; border-left: 2px solid var(--copper); padding-left: 10px; }
-.summary b { font-family: var(--mono); font-weight: 500; }
-.timeline { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: clamp(92px, 16vh, 150px) auto; gap: 4px 12px; align-items: center; cursor: default; }
-.timeline canvas { width: 100%; height: 100%; display: block; }
-.timeline input[type=range] { grid-column: 2; width: 100%; margin: 0; accent-color: var(--copper); }
-.timeline #playF { grid-row: 1 / 3; }
+
+/* two worlds and a thousand years: planet, a number either side, one bar */
+#future { height: 220vh; } #mill { height: 170vh; }
+.scene-pin { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr) minmax(0, 240px); grid-template-rows: minmax(0, 1fr) auto; gap: 12px 16px; padding-block: 20px 16px;
+  padding-left: var(--gutter-l); padding-right: var(--gutter-r); touch-action: pan-y; cursor: grab; }
+.side { align-self: center; } .side.right { text-align: right; }
+#millState { font: 500 15px/1.2 var(--mono); margin-top: 18px; min-height: 18px; }
+.bottom { grid-column: 1 / -1; display: grid; gap: 8px; cursor: default; }
+.meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 12px; font: 400 12px/1.2 var(--mono); color: var(--muted); }
+.meta.end { justify-content: flex-end; }
+.timeline { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.timeline input[type=range] { width: 100%; margin: 0; accent-color: var(--copper); }
+#yearBig { font: 500 clamp(22px, 2.2vw, 32px)/1 var(--mono); font-variant-numeric: tabular-nums; }
+.track { display: grid; gap: 4px; min-width: 0; }
+#chartM { width: 100%; height: clamp(40px, 6.5vh, 60px); display: block; }
 #divider { position: fixed; top: 0; bottom: 0; width: 1px; background: rgba(240, 246, 250, .55); z-index: 2; pointer-events: none; }
 #divider .grip { position: absolute; left: -22px; top: var(--y, 50%); width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; background: var(--abyss); border: 1px solid var(--fg); display: grid; place-items: center;
   pointer-events: auto; cursor: ew-resize; touch-action: none; font: 500 14px/1 var(--mono); color: var(--fg); }
-#divider .lab { position: absolute; top: var(--ly, 12%); font: 500 13px/1 var(--mono); padding: 5px 8px; background: rgba(5, 11, 20, .68); white-space: nowrap; }
-#divider .lab.l { right: 10px; color: var(--cool); } #divider .lab.r { left: 10px; color: var(--warm); }
 
-/* a thousand years */
-#mill { height: 260vh; }
-#mill .pin { display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr) minmax(0, 330px); grid-template-rows: minmax(0, 1fr) auto; gap: 12px 16px; padding-block: 28px 16px;
-  padding-left: var(--gutter-l); padding-right: var(--gutter-r); touch-action: pan-y; cursor: grab; }
-#millYear { font: 500 clamp(44px, 5.2vw, 76px)/1 var(--mono); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-#millYear small { font: 400 13px/1 var(--mono); letter-spacing: 0; color: var(--muted); margin-left: 8px; }
-#millState { font: 500 15px/1.2 var(--mono); min-height: 18px; }
-#seis { width: 100%; height: clamp(58px, 10vh, 92px); display: block; background: var(--deep); border-radius: 3px; }
-.seg.small button { padding: 7px 9px; font-size: 12px; }
-.seglabel { color: var(--muted); font-size: 12.5px; line-height: 1.2; margin-bottom: -8px; }
-
-/* colophon */
-#colophon { position: relative; background: var(--abyss); border-top: 1px solid var(--line); padding-block: 56px 72px; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
-#colophon .wrap { max-width: 1040px; display: grid; gap: 22px; }
-#colophon h2 { font-size: clamp(24px, 2.6vw, 34px); }
-#colophon dl { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 10px 22px; margin: 0; font-size: 14.5px; line-height: 1.5; }
-#colophon dt { color: var(--copper); font: 500 13px/1.4 var(--mono); } #colophon dd { margin: 0; color: var(--fg); }
+/* everything else lives behind the i */
+#aboutBox { width: min(760px, calc(100vw - 32px)); max-height: calc(100svh - 48px); box-sizing: border-box; padding: 0; background: var(--deep); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; }
+#aboutBox::backdrop { background: rgba(5, 11, 20, .72); backdrop-filter: blur(3px); }
+#aboutBox .inner { display: grid; gap: 20px; padding: 28px clamp(18px, 3vw, 36px) 32px; }
+#aboutClose { position: absolute; top: 12px; right: 12px; font-size: 18px; }
+#aboutBox h2 { font-size: clamp(24px, 2.6vw, 34px); padding-right: 40px; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; border-top: 1px solid var(--line); padding-top: 16px; }
+.facts b { display: block; font: 500 clamp(15px, 1.5vw, 20px)/1.15 var(--mono); margin-bottom: 4px; }
+.facts span { color: var(--muted); font-size: 13px; line-height: 1.35; display: block; }
+#aboutBox dl { display: grid; grid-template-columns: minmax(0, 170px) minmax(0, 1fr); gap: 10px 20px; margin: 0; font-size: 14.5px; line-height: 1.5; }
+#aboutBox dt { color: var(--copper); font: 500 13px/1.4 var(--mono); } #aboutBox dd { margin: 0; }
 #nogl { display: none; position: fixed; top: 12px; left: 12px; right: 12px; z-index: 5; background: var(--deep); border: 1px solid var(--copper); padding: 10px 12px; font-size: 14px; }
 
-/* narrow screens: text above the planet, side panels stacked in the flow */
+/* narrow screens: numbers above the planet, the bar below */
 @media (max-width: 900px) {
-  #hero { justify-content: flex-start; padding-block: 28px 24px; gap: 14px; }
-  #hero > * { max-width: 100%; }
+  #hero { justify-content: flex-start; padding-block: 18px 48px; gap: 10px; }
+  #hero > :not(.scrollcue) { max-width: 100%; }
+  #hero .lead { padding-right: 36px; }
   .hero-gap { display: block; height: 96vw; flex: none; }
+  .clock { margin-top: 0; }
+  #tropics .pin { grid-template-rows: auto minmax(0, 1fr) 20vh; gap: 8px; padding-block: 8px; }
+  .legend i { width: 56px; } .legend { font-size: 10px; }
+  .scene-pin { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; gap: 8px 12px; padding-block: 54px 12px; }
+  .scene-pin .side { align-self: start; }
+  .scene-pin .side.left { grid-column: 1; grid-row: 1; } .scene-pin .side.right { grid-column: 2; grid-row: 1; }
+  .scene-pin .fut-gap, .scene-pin .mil-gap { grid-column: 1 / -1; grid-row: 2; min-height: 0; }
+  .scene-pin .bottom { grid-row: 3; }
+  #millState { margin-top: 8px; font-size: 13px; }
   .facts { gap: 10px; }
-  .facts b { font-size: 15px; } .facts span { font-size: 12px; }
-  .long { display: none; }
-  #tropics .pin { grid-template-rows: auto minmax(0, 1fr) 26vh; gap: 8px; padding-block: 8px; }
-  .lower { gap: 8px; }
-  .panel .cap { font-size: 11px; } .legend i { width: 56px; } .legend { font-size: 10px; }
-  .head h2 { font-size: 20px; }
-  #future { height: auto; }
-  #future .pin { position: relative; height: auto; display: flex; flex-direction: column; gap: 14px; padding-block: 22px; touch-action: pan-y; }
-  .fut-gap { height: 96vw; flex: none; margin-top: 30px; }
-  .fut-right { background: rgba(5, 11, 20, .9); padding: 12px; border-radius: 4px; }
-  #mill { height: auto; }
-  #mill .pin { position: relative; height: auto; display: flex; flex-direction: column; gap: 14px; padding-block: 22px; touch-action: pan-y; }
-  .mil-gap { height: 96vw; flex: none; }
-  .timeline { background: rgba(5, 11, 20, .9); padding: 8px; border-radius: 4px; }
-  #colophon dl { grid-template-columns: minmax(0, 1fr); gap: 2px 0; } #colophon dd { margin-bottom: 12px; }
+  #aboutBox dl { grid-template-columns: minmax(0, 1fr); gap: 2px 0; } #aboutBox dd { margin-bottom: 12px; }
 }
-@media (max-height: 760px) and (min-width: 901px) { .long { display: none; } }
 </style>
 
 </head>
@@ -168,173 +142,98 @@ table.read td + td { font: 500 15px/1.1 var(--mono); font-variant-numeric: tabul
 <div id="nogl">This page draws the planet with WebGL 2, which this browser did not start. The text and numbers still read correctly.</div>
 
 <div id="tags" aria-hidden="true"></div>
+<button id="about" class="ico" type="button" aria-label="About this page">i</button>
 <main>
 <section id="hero">
-  <div class="eyebrow">A4G Labs · Earth system modeling</div>
   <h1>Rescene-ESM</h1>
-  <p class="lead">An Earth system model built around a frozen AI weather model. The network never retrains. Ocean, sea ice, land and rivers are coupled around it.</p>
+  <p class="lead">An Earth system model built around a frozen AI weather model.</p>
   <div class="hero-gap" id="heroGap"></div>
-  <div class="facts">
-    <div><b>1,000 yr/day</b><span>simulated on one GPU</span></div>
-    <div><b>1,000 years</b><span>of control run without drift</span></div>
-    <div><b>11 months</b><span>of El Niño lead in hindcasts</span></div>
-  </div>
-  <p class="note" id="heroNote"></p>
   <div class="clock">
     <span id="heroClock"></span>
-    <button id="follow" type="button" aria-pressed="false">Follow the storm</button>
-    <button id="pauseH" type="button">Pause</button>
+    <button id="follow" type="button" aria-pressed="false">Follow storm</button>
+    <button id="pauseH" class="ico" type="button"></button>
   </div>
-  <a class="scrollcue" href="#tropics">Scroll to run the ocean ↓</a>
+  <a class="scrollcue" href="#tropics" aria-label="Scroll down"><svg viewBox="0 0 28 28" width="28" height="28" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 11l7 7 7-7"/></svg></a>
 </section>
 
 <section id="tropics" class="stage"><div class="pin" id="tropicsPin">
   <div class="stack gut">
     <div class="head" id="headW">
-      <div class="text">
-        <div class="eyebrow">Running live in your browser</div>
-        <h2>Draw a wind burst across the Pacific</h2>
-        <p class="long">This is the model's equatorial ocean: a 1.5-layer shallow-water solver on the same 41 × 240 grid, stepped hourly in JavaScript. Stress pushes the warm upper layer; Kelvin waves run east along the equator and Rossby waves run west. Drawn stress is capped at 0.2 N m⁻². The ocean runs on its own here, with no atmosphere or SST feedback.</p>
-      </div>
-      <div class="controls">
-        <button id="wwb" type="button">Westerly burst</button>
-        <button id="ewb" type="button">Easterly burst</button>
-        <button id="clearW" type="button">Clear</button>
-        <button id="pauseW" type="button">Pause</button>
-        <button class="toEnso" type="button">Next: coupled El Niño</button>
-      </div>
+      <span class="scene">Live wave ocean</span>
+      <span class="legend" id="legW"></span>
+      <button id="clearW" class="ico" type="button" aria-label="Clear the ocean"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M3 3l10 10M13 3L3 13"/></svg></button>
     </div>
     <div class="head" id="headE">
-      <div class="text">
-        <div class="eyebrow">From the coupled model, 30-day frames</div>
-        <h2>El Niño in a free-running control</h2>
-        <p class="long" id="ensoText"></p>
-      </div>
-      <div class="controls">
-        <button id="playE" type="button">Pause</button>
-        <input id="scrubE" type="range" min="0" max="30" step="0.01" value="0" aria-label="Frame of the El Niño sequence" style="width:160px;accent-color:var(--copper)">
-        <button class="toWave" type="button">Back: draw wind</button>
-      </div>
+      <span class="scene">El Niño</span>
+      <span class="legend" id="legE"></span>
+      <button id="playE" class="ico" type="button"></button>
+      <input id="scrubE" type="range" min="0" max="30" step="0.01" value="0" aria-label="Frame of the El Niño sequence" style="width:160px;accent-color:var(--copper)">
     </div>
   </div>
   <div id="band" aria-label="Tropical band map">
-    <div id="hint">Drag on the ocean to draw wind</div>
+    <div id="hint">Drag to draw wind</div>
     <div id="ninoLabel">Niño-3.4</div>
   </div>
   <div class="stack gut">
-    <div class="lower" id="lowerW">
-      <div class="panel">
-        <div class="cap"><span><b>Thermocline along the equator</b> · <span class="mono" id="dayW">day 0</span></span><span class="legend" id="legW"></span></div>
-        <canvas id="xsW"></canvas>
-      </div>
-      <div class="panel">
-        <div class="cap"><span><b>Time and longitude</b>, 2°S–2°N</span></div>
-        <canvas id="hov"></canvas>
-      </div>
-    </div>
+    <div class="lower" id="lowerW"><canvas id="hov" aria-label="Thermocline depth anomaly by time and longitude"></canvas></div>
     <div class="lower" id="lowerE">
-      <div class="panel">
-        <div class="cap"><span><b>Thermocline along the equator</b> · <span class="mono" id="dayE"></span></span><span class="legend" id="legE"></span></div>
-        <canvas id="xsE"></canvas>
-      </div>
-      <div class="panel">
-        <div class="cap"><span><b>Niño-3.4 SST anomaly</b>, K</span></div>
-        <canvas id="n34"></canvas>
-      </div>
+      <div><div class="bignum" id="ninoNow"></div><div class="lab">Niño-3.4, K</div></div>
+      <canvas id="n34" aria-label="Niño-3.4 anomaly through the event"></canvas>
     </div>
   </div>
 </div></section>
 
-<section id="future" class="stage"><div class="pin" id="futurePin">
-  <div class="fut-left">
-    <div class="eyebrow">Coupled model, 2022–2100</div>
-    <h2>Two worlds, one model</h2>
-    <p class="long">Each world pairs its CMIP7 emissions with its own population: very low emissions with SSP1, high emissions with SSP3. Color is the change in near-surface temperature since 2022–2031. Light is where heatwaves meet people.</p>
-    <div class="seg" role="group" aria-label="World shown">
-      <button type="button" data-w="0" aria-pressed="false">SSP1</button>
-      <button type="button" data-w="c" aria-pressed="true">Side by side</button>
-      <button type="button" data-w="1" aria-pressed="false">SSP3</button>
-    </div>
-    <span class="legend" id="legF"></span>
-  </div>
+<section id="future" class="stage"><div class="pin scene-pin" id="futurePin">
+  <div class="side left"><div class="bignum c1" id="rE1"></div><div class="lab">SSP1</div></div>
   <div class="fut-gap"></div>
-  <div class="fut-right">
-    <div id="yearBig" class="mono">2022</div>
-    <table class="read">
-      <thead><tr><th></th><th class="c1">SSP1</th><th class="c3">SSP3</th></tr></thead>
-      <tbody>
-        <tr><td>Warming above 1850–1900, °C</td><td id="rW1"></td><td id="rW3"></td></tr>
-        <tr><td>CO₂ from emissions, ppm</td><td id="rC1"></td><td id="rC3"></td></tr>
-        <tr><td>Heatwave person-days, billion per year</td><td id="rE1"></td><td id="rE3"></td></tr>
-        <tr><td>Heatwave days per person</td><td id="rD1"></td><td id="rD3"></td></tr>
-        <tr><td>Northern sea ice, annual mean, million km²</td><td id="rI1"></td><td id="rI3"></td></tr>
-      </tbody>
-    </table>
-    <p class="summary">In 2081–2100 the SSP1 and SSP3 worlds reach <b class="c1">104</b> and <b class="c3">487</b> billion heatwave person-days per year. Of the gap of 383 billion, 290 billion comes from the warmer climate and 93 billion from the number of people.</p>
-  </div>
-  <div class="timeline">
-    <button id="playF" type="button">Play</button>
-    <canvas id="chartF"></canvas>
-    <input id="yearS" type="range" min="2022" max="2100" step="0.01" value="2022" aria-label="Year">
+  <div class="side right"><div class="bignum c3" id="rE3"></div><div class="lab">SSP3</div></div>
+  <div class="bottom" id="futBottom">
+    <div class="meta"><span>Billion heatwave person-days a year</span><span class="legend" id="legF"></span></div>
+    <div class="timeline">
+      <button id="playF" class="ico" type="button"></button>
+      <input id="yearS" type="range" min="2022" max="2100" step="0.01" value="2022" aria-label="Year">
+      <div id="yearBig">2022</div>
+    </div>
   </div>
 </div></section>
 
-<section id="mill" class="stage"><div class="pin" id="millPin">
-  <div class="fut-left">
-    <div class="eyebrow">Coupled model, CO₂ held fixed</div>
-    <h2>A thousand years on one GPU</h2>
-    <p class="long">Every annual mean of the 1000-year control run, in order. Color is near-surface temperature against the run's own mean. CO₂ and the other forcings never change, so these swings arise inside the model.</p>
-    <div class="seglabel">Speed</div>
-    <div class="seg small" role="group" aria-label="Playback speed">
-      <button type="button" data-sp="5" aria-pressed="false">5 yr/s</button>
-      <button type="button" data-sp="20" aria-pressed="true">20 yr/s</button>
-      <button type="button" data-sp="50" aria-pressed="false">50 yr/s</button>
-    </div>
-    <div class="seglabel">Jump to</div>
-    <div class="seg small" role="group" aria-label="Jump to a year">
-      <button type="button" data-ev="nino">Strongest El Niño</button>
-      <button type="button" data-ev="nina">Strongest La Niña</button>
-      <button type="button" data-ev="warm">Warmest year</button>
-      <button type="button" data-ev="cold">Coldest year</button>
-    </div>
-    <span class="legend" id="legM"></span>
-  </div>
+<section id="mill" class="stage"><div class="pin scene-pin" id="millPin">
+  <div class="side left"><div class="bignum" id="millYear"></div><div class="lab">Year of 1,000</div></div>
   <div class="mil-gap"></div>
-  <div class="fut-right">
-    <div id="millYear" class="mono"></div>
-    <div id="millState" class="mono"></div>
-    <canvas id="seis" aria-label="Monthly Niño-3.4 anomaly, the last 30 years"></canvas>
-    <table class="read">
-      <tbody>
-        <tr><td>Global temperature this year, °C</td><td id="mT"></td></tr>
-        <tr><td>Against the 1000-year mean, K</td><td id="mA"></td></tr>
-        <tr><td>GPU time to get here</td><td id="mG"></td></tr>
-      </tbody>
-    </table>
-    <p class="summary" id="millSum"></p>
-  </div>
-  <div class="timeline">
-    <button id="playM" type="button">Play</button>
-    <canvas id="chartM"></canvas>
-    <input id="yearM" type="range" min="0" max="999.99" step="0.01" value="0" aria-label="Model year">
+  <div class="side right"><div class="bignum" id="mT"></div><div class="lab">Global °C</div><div id="millState"></div></div>
+  <div class="bottom" id="milBottom">
+    <div class="meta end"><span class="legend" id="legM"></span></div>
+    <div class="timeline" style="grid-template-columns:auto minmax(0,1fr)">
+      <button id="playM" class="ico" type="button"></button>
+      <div class="track">
+        <canvas id="chartM" aria-label="Monthly Niño-3.4 anomaly over the 1000 years"></canvas>
+        <input id="yearM" type="range" min="0" max="999.99" step="0.01" value="0" aria-label="Model year">
+      </div>
+    </div>
   </div>
 </div></section>
-
-<section id="colophon"><div class="wrap">
+</main>
+<div id="divider" hidden><div class="grip" role="slider" tabindex="0" aria-label="Divider between worlds" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">↔</div></div>
+<dialog id="aboutBox" aria-label="About this page"><div class="inner">
+  <button id="aboutClose" class="ico" type="button" aria-label="Close">×</button>
   <h2>What you are looking at</h2>
+  <p>Rescene-ESM is an Earth system model built around a frozen AI weather model. The network never retrains. Ocean, sea ice, land and rivers are coupled around it.</p>
+  <div class="facts">
+    <div><b>1,000 yr/day</b><span>simulated on one GPU</span></div>
+    <div><b>1,000 years</b><span>of control run without drift</span></div>
+    <div><b>11 months</b><span>of El Niño lead in hindcasts</span></div>
+  </div>
   <dl>
     <dt>Living Earth</dt><dd id="stNote"></dd>
-    <dt>Live wave ocean</dt><dd>A JavaScript port of the model's equatorial ocean, with the same equations, coefficients and sea mask. Under the paper's 5-day westerly burst it stays within 0.00002 m of the original over 120 days and its Kelvin front crosses at 2.68 m/s.</dd>
-    <dt>El Niño</dt><dd>30-day frames of SST, thermocline depth and zonal stress anomalies from the 100-year control at fixed CO₂, relative to that run's own seasonal cycle. The model receives no observed forcing here.</dd>
-    <dt>Two worlds</dt><dd>One coupled run per world. Maps use 5-year means. Person-days and days per person use 9-year means, with thresholds taken from the model's own 1986–2005. Warming above 1850–1900 comes from the model's two-layer energy balance. The light layer multiplies each 1.5° cell's person-days by the 0.25° population map of 2020 for display only; every number comes from the 1.5° cells.</dd>
-    <dt>A thousand years</dt><dd>One member at fixed CO₂, with annual-mean fields and monthly Niño-3.4 from 1 January 1979 onward. The maps are the run's annual 2-m temperature minus its own mean, averaged to 3° and compressed for display (typical error under 0.1 K). The first two years are shown but left out of the statistics, as in the paper. A year is labeled El Niño or La Niña when the 3-month mean Niño-3.4 anomaly stays beyond 0.5 K for at least five months, and the peak shown is its largest monthly value. The GPU time is the run's measured 15.9 hours spread evenly over its years; this light record with one member reached about 1,500 years per day, against the 1,000 of the first screen for two members with the full record. The flat global mean is partly by design: the network is weakly relaxed toward its climate over 120 days and the surface fluxes carry a fitted adjustment, so little variance reaches the longest time scales.</dd>
+    <dt>Live wave ocean</dt><dd>The model's equatorial ocean, a 1.5-layer shallow-water solver on the same 41 × 240 grid, stepped hourly in JavaScript. Stress pushes the warm upper layer; Kelvin waves run east along the equator and Rossby waves run west. Color and the strip below show thermocline depth anomaly; the strip runs from 120°E to 80°W with time going down. Drawn stress is capped at 0.2 N m⁻², and the ocean runs on its own here, with no atmosphere or SST feedback. Under the paper's 5-day westerly burst the port stays within 0.00002 m of the original over 120 days and its Kelvin front crosses at 2.68 m/s.</dd>
+    <dt>El Niño</dt><dd><span id="ensoNote"></span> Frames are 30 days apart, relative to that run's own seasonal cycle.</dd>
+    <dt>Two worlds</dt><dd>Each world pairs its CMIP7 emissions with its own population: very low emissions with SSP1, high emissions with SSP3. The side numbers are billions of heatwave person-days a year as 9-year means. In 2081–2100 the worlds reach 104 and 487 billion; of the gap of 383 billion, 290 billion comes from the warmer climate and 93 billion from the number of people. Color is the change in near-surface temperature since 2022–2031, as 5-year means. Light is where heatwaves meet people: it multiplies each 1.5° cell's person-days by the 0.25° population map of 2020 for display only, and every number comes from the 1.5° cells. One coupled run per world, with thresholds from the model's own 1986–2005. Drag the handle to move the line between the worlds.</dd>
+    <dt>A thousand years</dt><dd>Every annual mean of one member at fixed CO₂, with annual-mean fields and monthly Niño-3.4 from 1 January 1979 onward. Color is 2-m temperature against the run's own mean, averaged to 3° and compressed for display (typical error under 0.1 K). The strip is monthly Niño-3.4 anomaly. <span id="millSum"></span> The first two years are shown but left out of the statistics, as in the paper. A year is labeled El Niño or La Niña when the 3-month mean Niño-3.4 anomaly stays beyond 0.5 K for at least five months, and the peak shown is its largest monthly value. This run took 15.9 hours on one GPU; its light record with one member reached about 1,500 years per day, against 1,000 for two members with the full record. The flat global mean is partly by design: the network is weakly relaxed toward its climate over 120 days and the surface fluxes carry a fitted adjustment, so little variance reaches the longest time scales.</dd>
     <dt>Not from the model</dt><dd>Coastlines (Natural Earth) and the night-side population pattern (PIK-CMIP 1.0.1).</dd>
     <dt>Paper</dt><dd>M. Cheon and K. Kakinuma, <em>Rescene-ESM: an Earth system model built around a frozen AI weather model</em>. Preprint in preparation.</dd>
     <dt>More models</dt><dd><a href="https://sites.google.com/view/a4glabs" rel="noopener">A4G Labs</a></dd>
   </dl>
-</div></section>
-</main>
-<div id="divider" hidden><span class="lab l">SSP1</span><span class="lab r">SSP3</span><div class="grip" role="slider" tabindex="0" aria-label="Divider between worlds" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">↔</div></div>
+</div></dialog>
 
 <script>
 // The equatorial wave ocean of Rescene-ESM (esm_equator.WaveOcean): linear reduced-gravity shallow water on the
@@ -463,6 +362,12 @@ function legend(el, a, mid, b, unit, lo = -1, hi = 1) {
   el.innerHTML = `<span>${a}</span><i style="background:${rampCSS(lo, hi)}"></i><span>${b} ${unit}</span>`;
 }
 
+const ICON = {
+  play: '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M4 2.5v11l9-5.5z"/></svg>',
+  pause: '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M3.5 2.5h3v11h-3zM9.5 2.5h3v11h-3z"/></svg>',
+};
+function setPlay(el, playing) { el.innerHTML = playing ? ICON.pause : ICON.play; el.setAttribute("aria-label", playing ? "Pause" : "Play"); }
+
 /* ---- shaders ---- */
 const VS_COMMON = `#version 300 es
 precision highp float;
@@ -485,7 +390,7 @@ const FS_GLOBE = `#version 300 es
 precision highp float; precision highp sampler2DArray;
 in vec2 vLL; in vec3 vN; out vec4 o;
 uniform sampler2D tCoast, tPop, tWave, tSea, tMilIce, tTrail; uniform sampler2DArray tHero, tFut, tEnso, tMil, tSt;
-uniform float uLonC, uSt0, uSt1, uStT, uStA, uMilW, uMilT, uMorph, uHero, uFutW, uWaveW, uEnsoW, uF0, uF1, uFT, uScen, uCompare, uSplit, uE0, uE1, uET, uWaveMax, uDpr;
+uniform float uLonC, uSt0, uSt1, uStT, uStA, uMilW, uMilT, uMorph, uHero, uFutW, uWaveW, uEnsoW, uF0, uF1, uFT, uSplit, uE0, uE1, uET, uWaveMax, uDpr;
 const vec3 P0=vec3(.05,.10,.17),P1=vec3(.55,.13,.20),P2=vec3(.93,.35,.13),P3=vec3(1.,.70,.28),P4=vec3(1.,.96,.80);
 const vec3 N1=vec3(.06,.25,.50),N2=vec3(.08,.50,.76),N3=vec3(.35,.78,.93),N4=vec3(.82,.97,1.);
 vec3 ramp(float x) {
@@ -562,11 +467,7 @@ void main() {
   }
   // two worlds: temperature change, sea ice, heat where people live
   if (uFutW > .002) {
-    vec3 f;
-    if (uCompare > .5) f = futAt(gl_FragCoord.x < uSplit ? 0. : 1., uvM);
-    else if (uScen < .002) f = futAt(0., uvM);
-    else if (uScen > .998) f = futAt(1., uvM);
-    else f = mix(futAt(0., uvM), futAt(1., uvM), uScen);
+    vec3 f = futAt(gl_FragCoord.x < uSplit ? 0. : 1., uvM);
     float dT = mix(-5., 11., f.r);
     float x = dT / 4.;
     vec3 c = mix(mix(vec3(.016,.05,.09), vec3(.07,.09,.115), land), ramp(x), smoothstep(.02,.16,abs(x)) * .96);
@@ -780,42 +681,6 @@ function fit2d(c) {
 }
 const LON_TICKS = [[150, "150°E"], [180, "180°"], [210, "150°W"], [240, "120°W"], [270, "90°W"]];
 const INK = "#9fb0be", FG = "#edf2f5", LINE = "rgba(165,195,220,.22)";
-function drawSection(c, hEq, seaEq, sstEq, sstMax, Z0, Z1, zt) {
-  const { x, w, h } = fit2d(c);
-  x.clearRect(0, 0, w, h);
-  const pl = 46, pr = 6, pt = sstEq ? 12 : 4, pb = 16, sx = (w - pl - pr) / HOV_W, sy = (h - pt - pb) / (Z1 - Z0);
-  const Y = (z) => pt + (z - Z0) * sy;
-  const up = x.createLinearGradient(0, pt, 0, Y(150 + (Z1 - 150) * .4));
-  up.addColorStop(0, "#c9733c"); up.addColorStop(1, "#7a3b2a");
-  const lo = x.createLinearGradient(0, Y(150 - (150 - Z0) * .4), 0, Y(Z1));
-  lo.addColorStop(0, "#14517a"); lo.addColorStop(1, "#07182b");
-  x.fillStyle = lo; x.fillRect(pl, pt, w - pl - pr, h - pt - pb);
-  x.beginPath(); x.moveTo(pl, pt);
-  for (let k = 0; k <= HOV_W; k++) {
-    const i = HOV_I0 + Math.min(k, HOV_W - 1), z = 150 + hEq[i];
-    x.lineTo(pl + k * sx, Y(z));
-  }
-  x.lineTo(w - pr, pt); x.closePath(); x.fillStyle = up; x.fill();
-  x.setLineDash([3, 4]); x.strokeStyle = "rgba(237,242,245,.4)"; x.lineWidth = 1;
-  x.beginPath(); x.moveTo(pl, Y(150)); x.lineTo(w - pr, Y(150)); x.stroke(); x.setLineDash([]);
-  x.beginPath();
-  for (let k = 0; k <= HOV_W; k++) {
-    const i = HOV_I0 + Math.min(k, HOV_W - 1), z = 150 + hEq[i];
-    k ? x.lineTo(pl + k * sx, Y(z)) : x.moveTo(pl + k * sx, Y(z));
-  }
-  x.strokeStyle = FG; x.lineWidth = 1.6; x.stroke();
-  if (sstEq) for (let k = 0; k < HOV_W; k++) {
-    const c3 = rampRGB(sstEq[HOV_I0 + k] / sstMax);
-    x.fillStyle = `rgb(${c3.map(Math.round).join(",")})`; x.fillRect(pl + k * sx, 2, sx + .6, pt - 3);
-  }
-  x.fillStyle = "#16202c";
-  for (let k = 0; k < HOV_W; k++) if (!seaEq[HOV_I0 + k]) x.fillRect(pl + k * sx, 0, sx + .6, h - pb);
-  x.fillStyle = INK; x.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
-  x.textAlign = "right"; x.textBaseline = "middle";
-  for (const z of zt) x.fillText(z + " m", pl - 4, Math.min(Math.max(Y(z), 7), h - pb - 4));
-  x.textAlign = "center"; x.textBaseline = "alphabetic";
-  for (const [l, s] of LON_TICKS) if (w > 330 || l % 60 === 0) x.fillText(s, pl + (l - 120) / 1.5 * sx, h - 3);
-}
 function drawHov() {
   const c = $("hov"), { x, w, h } = fit2d(c);
   x.clearRect(0, 0, w, h);
@@ -859,31 +724,6 @@ function drawN34(cur) {
   x.fillStyle = INK; x.textAlign = "center"; x.textBaseline = "alphabetic";
   const pk = META.enso.peak_frame;
   for (const k of [pk - 12, pk, pk + 12]) if (k >= 0 && k < n34.length) x.fillText(k === pk ? "peak" : (k < pk ? "−" : "+") + "1 yr", X(k), h - 3);
-}
-function drawChart(year) {
-  const c = $("chartF"), { x, w, h } = fit2d(c), F = META.future_series;
-  x.clearRect(0, 0, w, h);
-  const pl = 34, pr = 44, pt = 16, pb = 16, gw = w - pl - pr, gh = h - pt - pb, Y0 = 2022, Y1 = 2100;
-  const X = (y) => pl + (y - Y0) / (Y1 - Y0) * gw, Y = (v) => pt + (600 - v) / 600 * gh;
-  const font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
-  x.font = font;
-  x.fillStyle = "rgba(224,154,95,.11)"; x.fillRect(X(2081), pt, X(2100) - X(2081), gh);
-  x.fillStyle = INK; x.textAlign = "right"; x.textBaseline = "middle"; x.strokeStyle = LINE; x.lineWidth = 1;
-  for (const v of [0, 200, 400, 600]) { x.beginPath(); x.moveTo(pl, Y(v)); x.lineTo(pl + gw, Y(v)); x.stroke(); x.fillText(v, pl - 4, Y(v)); }
-  x.textAlign = "center"; x.textBaseline = "alphabetic";
-  for (let y = 2030; y <= 2100; y += w > 500 ? 10 : 20) x.fillText(y, X(y), h - 3);
-  x.textAlign = "left"; x.fillStyle = FG; x.fillText(w > 520 ? "Heatwave person-days, billion per year (9-year mean)" : "Heatwave person-days, billion per year", pl + 4, 11);
-  for (const [k, col, name] of [["vl", "#5fcbea", "SSP1"], ["h", "#ff8250", "SSP3"]]) {
-    const s = F[k].exposure; x.beginPath();
-    s.forEach((v, i) => i ? x.lineTo(X(Y0 + i), Y(v)) : x.moveTo(X(Y0 + i), Y(v)));
-    x.strokeStyle = col; x.lineWidth = 2; x.stroke();
-    const yy = Math.min(Y(s[s.length - 1]), h - pb - 4);
-    x.fillStyle = col; x.textBaseline = "middle"; x.fillText(name, X(Y1) + 6, yy);
-    x.textBaseline = "alphabetic";
-    const v = interp(s, year);
-    x.beginPath(); x.arc(X(year), Y(v), 3.5, 0, 7); x.fill();
-  }
-  x.strokeStyle = "#e09a5f"; x.lineWidth = 1.5; x.beginPath(); x.moveTo(X(year), pt); x.lineTo(X(year), h - pb); x.stroke();
 }
 function interp(s, year) {
   const t = Math.min(Math.max(year - 2022, 0), s.length - 1), i = Math.min(Math.floor(t), s.length - 2);
@@ -959,16 +799,7 @@ function updateBand(mode, frame, lonW, lonE) {
 }
 
 /* ---- ENSO frames ---- */
-const ENSO = { tau: [], h: [], sst: [], frame: 0, playing: !REDUCED };
-function ensoEq(fr, A) {
-  const f0 = Math.floor(fr), t = fr - f0, f1 = Math.min(f0 + 1, A.length - 1), o = new Float32Array(NX);
-  for (let i = 0; i < NX; i++) {
-    const s = (F) => (F[19 * NX + i] + F[20 * NX + i] + F[21 * NX + i]) / 3;
-    o[i] = mix(s(A[f0]), s(A[f1]), t);
-  }
-  return o;
-}
-
+const ENSO = { tau: [], n: 0, frame: 0, playing: !REDUCED };
 /* ---- a thousand years ---- */
 const MIL = { data: null, n34: null, year: 0, rate: 20, playing: false, played: false, tex: null, loaded: [-1, -1], off: null, offW: 0, offH: 0, warp: [], warpOn: false };
 function milLayer(l, f) {
@@ -994,34 +825,22 @@ function milStates() {                                           // El Nino or L
   }
   return st;
 }
-function hhmm(sec) { const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60); return `${h} h ${String(m).padStart(2, "0")} min`; }
 function milReadout() {
   const M = META.mil, y = Math.min(Math.floor(MIL.year), 999);
   if (MIL.shown === y) return;
   MIL.shown = y;
-  $("millYear").innerHTML = `${y + 1}<small>of 1,000</small>`;
+  $("millYear").textContent = y + 1;
   const p = MIL.state[y], st = $("millState");
-  st.textContent = p > 0 ? `El Niño · peak +${p.toFixed(1)} K` : p < 0 ? `La Niña · peak −${Math.abs(p).toFixed(1)} K` : "Neutral";
+  st.textContent = p > 0 ? `El Niño +${p.toFixed(1)} K` : p < 0 ? `La Niña −${Math.abs(p).toFixed(1)} K` : "Neutral";
   st.style.color = p > 0 ? "var(--warm)" : p < 0 ? "var(--cool)" : "var(--muted)";
-  const T = M.t2m_c[y], a = T - M.mean_c;
-  $("mT").textContent = T.toFixed(2);
-  $("mA").textContent = (a >= 0 ? "+" : "−") + Math.abs(a).toFixed(2);
-  $("mG").textContent = hhmm((y + 1) * M.sec_per_year);
+  $("mT").textContent = M.t2m_c[y].toFixed(2);
 }
+const MIL_TICKS = 15;                                            // px under the strip for the years
 function milStatic(w, h) {                                       // the long strip, drawn once per size
-  const M = META.mil, c = document.createElement("canvas"), d = Math.min(devicePixelRatio || 1, 2);
+  const c = document.createElement("canvas"), d = Math.min(devicePixelRatio || 1, 2);
   c.width = Math.round(w * d); c.height = Math.round(h * d);
   const x = c.getContext("2d"); x.scale(d, d);
-  const font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
-  const pl = 42, pr = 8, gw = w - pl - pr, h1 = Math.round((h - 16) * .56), gap = 16, y2 = h1 + gap, h2 = h - y2 - 16;
-  const X = (yr) => pl + yr / 1000 * gw, lo = 13.5, hi = 15, Y = (v) => (hi - v) / (hi - lo) * (h1 - 2) + 1;
-  x.font = font; x.fillStyle = INK; x.textAlign = "right"; x.textBaseline = "middle"; x.strokeStyle = LINE; x.lineWidth = 1;
-  for (const v of [13.5, 14, 14.5, 15]) { x.beginPath(); x.moveTo(pl, Y(v)); x.lineTo(pl + gw, Y(v)); x.stroke(); x.fillText(v.toFixed(1), pl - 4, Math.min(Math.max(Y(v), 6), h1 - 4)); }
-  x.textAlign = "left"; x.fillStyle = FG; x.fillText("Global temperature, °C, every year", pl + 4, 8);
-  x.beginPath(); M.t2m_c.forEach((v, i) => i ? x.lineTo(X(i + .5), Y(v)) : x.moveTo(X(i + .5), Y(v)));
-  x.strokeStyle = "rgba(224,154,95,.95)"; x.lineWidth = 1; x.stroke();
-  x.fillStyle = FG; x.textBaseline = "alphabetic"; x.fillText("Niño-3.4 anomaly, every month", pl + 4, y2 - 3);
-  const cols = Math.max(1, Math.round(gw * d)), n = MIL.n34.length, img = x.createImageData(cols, 1);
+  const cols = Math.max(1, Math.round(w * d)), n = MIL.n34.length, img = x.createImageData(cols, 1);
   for (let k = 0; k < cols; k++) {
     const m0 = Math.floor(k / cols * n), m1 = Math.max(m0 + 1, Math.floor((k + 1) / cols * n));
     let v = 0; for (let m = m0; m < m1; m++) { const a = milN34(m); if (Math.abs(a) > Math.abs(v)) v = a; }
@@ -1029,29 +848,17 @@ function milStatic(w, h) {                                       // the long str
     img.data[4 * k] = col[0]; img.data[4 * k + 1] = col[1]; img.data[4 * k + 2] = col[2]; img.data[4 * k + 3] = 255;
   }
   const strip = document.createElement("canvas"); strip.width = cols; strip.height = 1; strip.getContext("2d").putImageData(img, 0, 0);
-  x.imageSmoothingEnabled = false; x.drawImage(strip, pl, y2, gw, h2);
-  x.fillStyle = INK; x.textAlign = "center";
-  for (let yr = 0; yr <= 1000; yr += w > 560 ? 100 : 250) { x.textAlign = yr === 1000 ? "right" : "center"; x.fillText(yr === 0 ? "1" : yr.toLocaleString("en-US"), yr === 1000 ? pl + gw : X(yr), h - 2); }
+  x.imageSmoothingEnabled = false; x.drawImage(strip, 0, 0, w, h - MIL_TICKS);
+  x.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); x.fillStyle = INK;
+  for (let yr = 0; yr <= 1000; yr += w > 560 ? 100 : 250) { x.textAlign = yr === 0 ? "left" : yr === 1000 ? "right" : "center"; x.fillText(yr === 0 ? "1" : yr.toLocaleString("en-US"), yr / 1000 * w, h - 2); }
   return c;
 }
 function drawMill() {
   const c = $("chartM"), { x, w, h } = fit2d(c);
   if (!MIL.off || MIL.offW !== w || MIL.offH !== h) { MIL.off = milStatic(w, h); MIL.offW = w; MIL.offH = h; }
   x.clearRect(0, 0, w, h); x.drawImage(MIL.off, 0, 0, w, h);
-  const pl = 42, pr = 8, px = pl + MIL.year / 1000 * (w - pl - pr);
-  x.strokeStyle = "#edf2f5"; x.lineWidth = 1.5; x.beginPath(); x.moveTo(px, 0); x.lineTo(px, h - 15); x.stroke();
-}
-function drawSeis() {                                            // the last 30 years before the playhead
-  const c = $("seis"), { x, w, h } = fit2d(c);
-  x.clearRect(0, 0, w, h);
-  const span = 360, m1 = MIL.year * 12, m0 = m1 - span, Y = (v) => h / 2 - v / 4.8 * (h / 2 - 3), X = (m) => (m - m0) / span * w;
-  x.strokeStyle = LINE; x.lineWidth = 1; x.beginPath(); x.moveTo(0, h / 2); x.lineTo(w, h / 2); x.stroke();
-  for (const [sign, col] of [[1, "rgba(255,130,80,.85)"], [-1, "rgba(95,203,234,.85)"]]) {
-    x.beginPath(); x.moveTo(X(m0), h / 2);
-    for (let m = Math.ceil(Math.max(m0, 0)); m <= m1; m++) { const v = milN34(m); x.lineTo(X(m), Y(sign > 0 ? Math.max(v, 0) : Math.min(v, 0))); }
-    x.lineTo(w, h / 2); x.closePath(); x.fillStyle = col; x.fill();
-  }
-  x.fillStyle = INK; x.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); x.textAlign = "left"; x.textBaseline = "top"; x.fillText("Niño-3.4, last 30 years", 5, 4);
+  const px = MIL.year / 1000 * w;
+  x.strokeStyle = "#edf2f5"; x.lineWidth = 2; x.beginPath(); x.moveTo(px, 0); x.lineTo(px, h - MIL_TICKS); x.stroke();
 }
 function drawWarp(cx, cy, Rpx, strength) {
   const c = $("warp");
@@ -1069,7 +876,7 @@ function drawWarp(cx, cy, Rpx, strength) {
 }
 
 /* ---- state ---- */
-const S = { W: 0, H: 0, dpr: 1, dprCap: Math.min(devicePixelRatio || 1, 2), yaw: 150, pitch: 12, spin: REDUCED ? 0 : 3.2, drag: null, split: null, follow: false, fw: 0, stormLat: 0, compare: true, scen: .5, scenT: .5,
+const S = { W: 0, H: 0, dpr: 1, dprCap: Math.min(devicePixelRatio || 1, 2), yaw: 150, pitch: 12, spin: REDUCED ? 0 : 3.2, drag: null, split: null, follow: false, fw: 0, stormLat: 0,
   year: 2022, playF: false, playedOnce: false, frameMs: 16, slow: 0 };
 const yrS = $("yearS");
 function resize() {
@@ -1127,7 +934,7 @@ function startRender(R) {
     S.frameMs = mix(S.frameMs, dt * 1000, .05);
     if (++nFrames > 90 && S.frameMs > 34 && S.dprCap > 1) { S.dprCap = Math.max(1, S.dprCap - .5); nFrames = 0; resize(); }
 
-    const vh = S.H, rT = $("tropics").getBoundingClientRect(), rF = $("future").getBoundingClientRect(), rM = $("mill").getBoundingClientRect(), rC = $("colophon").getBoundingClientRect();
+    const vh = S.H, rT = $("tropics").getBoundingClientRect(), rF = $("future").getBoundingClientRect(), rM = $("mill").getBoundingClientRect(), rC = { top: rM.bottom };
     const narrow = S.W <= 900;
     const inT = sat(1 - rT.top / vh), outT = sat(1 - rF.top / vh);
     const toT = ease(inT), toF = ease(outT), inM = sat(1 - rM.top / vh), toM = ease(inM);
@@ -1158,57 +965,51 @@ function startRender(R) {
     S.fw = mix(S.fw, storm ? 1 : 0, 1 - Math.exp(-dt * 2.4));
     if (S.follow && storm && S.drag === null) S.stormLat = mix(S.stormLat, storm.lat, 1 - Math.exp(-dt * 3.2));
     if (S.drag === null && !REDUCED && !(S.follow && storm)) S.yaw += dt * mix(mix(S.spin, 1.1, toF), MIL.playing ? 9 : 2, toM) * (1 - morph);
-    if (MIL.target !== undefined) {                          // a jump turns the Pacific to the viewer
-      const d = shortest(S.yaw, MIL.target) - S.yaw; S.yaw += d * (1 - Math.exp(-dt * 4));
-      if (Math.abs(d) < .3) MIL.target = undefined;
-    }
     if (tropicsOn && !WD.paused && waveLive) {
       WD.stepsDebt += dt * 6 * 24;                           // 6 model days per second
       const n = Math.min(Math.floor(WD.stepsDebt), 12);
       if (n > 0) { WD.stepsDebt -= n; stepWave(n); uploadWave(); }
       if (WD.oc.seconds / 86400 - WD.lastForce > 200) westerly(1);
-      const d = Math.floor(WD.oc.seconds / 86400);
-      $("dayW").textContent = "day " + d;
     }
     if (tropicsOn && !waveLive && ENSO.playing) {
       ENSO.frame += dt / .55;
-      if (ENSO.frame > ENSO.h.length - 1) ENSO.frame = 0;
+      if (ENSO.frame > ENSO.n - 1) ENSO.frame = 0;
       $("scrubE").value = ENSO.frame;
     }
     const futOn = outT > .4 && rM.top > vh * .1;
     const milOn = inM > .5 && rC.top > vh * .15;
-    if (milOn && !MIL.played && !REDUCED && MIL.data) { MIL.played = true; MIL.playing = true; $("playM").textContent = "Pause"; }
+    if (milOn && !MIL.played && !REDUCED && MIL.data) { MIL.played = true; MIL.playing = true; setPlay($("playM"), true); }
     if (MIL.playing && milOn) {
       MIL.year += dt * MIL.rate;
-      if (MIL.year >= 999.99) { MIL.year = 999.99; MIL.playing = false; $("playM").textContent = "Replay"; }
+      if (MIL.year >= 999.99) { MIL.year = 999.99; MIL.playing = false; setPlay($("playM"), false); }
       $("yearM").value = MIL.year;
     }
-    if (futOn && !S.playedOnce && !REDUCED) { S.playedOnce = true; S.playF = true; $("playF").textContent = "Pause"; }
+    if (futOn && !S.playedOnce && !REDUCED) { S.playedOnce = true; S.playF = true; setPlay($("playF"), true); }
     if (S.playF && futOn) {
       S.year += dt * 3.0;
-      if (S.year >= 2100) { S.year = 2100; S.playF = false; $("playF").textContent = "Replay"; }
+      if (S.year >= 2100) { S.year = 2100; S.playF = false; setPlay($("playF"), false); }
       yrS.value = S.year;
     }
-    S.scen = mix(S.scen, S.scenT, 1 - Math.exp(-dt * 7));
-    if (Math.abs(S.scen - S.scenT) < .002) S.scen = S.scenT;
 
     /* camera */
     const gapCenter = (el) => { const r = el.getBoundingClientRect(); return r.top + r.height / 2 - S.H / 2; };
     const heroR = narrow ? S.W * .46 : Math.min(S.W * .34, S.H * .46);
-    const heroX = narrow ? 0 : S.W * (.22 + .085 * S.fw), heroY = narrow ? gapCenter($("heroGap")) : 0;
-    const tH = narrow ? 0 : document.querySelector(".timeline").offsetHeight + 24;
-    const futR = narrow ? S.W * .46 : Math.min(S.W * .21, (S.H - tH - 64) / 2);
+    const heroRn = heroR * (1 + (narrow ? .04 : .28) * S.fw);    // the disc stays clear of the text at the left
+    const heroX = narrow ? 0 : Math.max(0, Math.min(S.W * .04, 56) + 376 + heroRn - S.W / 2), heroY = narrow ? gapCenter($("heroGap")) : 0;
+    const gapR = (el) => Math.min(S.W * .46, el.clientHeight / 2 - 4);
+    const tH = narrow ? 0 : $("futBottom").offsetHeight + 24;
+    const futR = narrow ? gapR(document.querySelector(".fut-gap")) : Math.min(S.W * .27, (S.H - tH - 40) / 2);
     const futX = 0, futY = narrow ? gapCenter(document.querySelector(".fut-gap")) : -tH / 2 + 8;
-    const tM = narrow ? 0 : document.querySelector("#mill .timeline").offsetHeight + 24;
-    const milR = narrow ? S.W * .46 : Math.min(S.W * .21, (S.H - tM - 64) / 2);
+    const tM = narrow ? 0 : $("milBottom").offsetHeight + 24;
+    const milR = narrow ? gapR(document.querySelector(".mil-gap")) : Math.min(S.W * .27, (S.H - tM - 40) / 2);
     const milY = narrow ? gapCenter(document.querySelector(".mil-gap")) : -tM / 2 + 8;
     const tropR = Math.min(S.W, S.H) * .4;
     const fc = S.H * 1.4;
     const rb = bandRect(), bandY = rb.top + rb.height / 2 - S.H / 2;
-    let Rpx = mix(mix(mix(heroR * (1 + (narrow ? .04 : .28) * S.fw), tropR, toT), futR, toF), milR, toM);
+    let Rpx = mix(mix(mix(heroRn, tropR, toT), futR, toF), milR, toM);
     let ox = mix(mix(mix(heroX, 0, toT), futX, toF), 0, toM), oy = mix(mix(mix(heroY, -bandY, toT), futY, toF), milY, toM);
     if (S.follow && storm && S.drag === null) {              // the disc sits off axis, so the storm is drawn right of the text by solving for the angle
-      const d = facingAngle(narrow ? 0 : S.W * .21, ox * D / fc, D * Rpx / Math.hypot(fc, Rpx), D, fc);
+      const d = facingAngle(ox, ox * D / fc, D * Rpx / Math.hypot(fc, Rpx), D, fc);
       S.yaw += (shortest(S.yaw, storm.lon - d) - S.yaw) * (1 - Math.exp(-dt * 3.2));
     }
     let yaw = S.yaw, pitch = mix(S.pitch, 0, 1);
@@ -1254,7 +1055,7 @@ function startRender(R) {
     if (showGlobe) {
       /* halo */
       const hA = 1 - morph;
-      const warm = mix(sat((interp(META.future_series.h.warming, S.year) - 1.3) / 1.3) * toF * (S.compare ? 0 : S.scen), MIL.data ? sat(MIL.state[Math.min(Math.floor(MIL.year), 999)] / 3) : 0, toM);
+      const warm = MIL.data ? sat(MIL.state[Math.min(Math.floor(MIL.year), 999)] / 3) * toM : 0;
       if (hA > .01) {
         gl.disable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
         gl.useProgram(halo.p); gl.bindVertexArray(vaoH);
@@ -1281,9 +1082,8 @@ function startRender(R) {
       gl.uniform1f(Gu.uStA, sat(Math.min(ST.t, ST.n - 1 - ST.t) / 1.5));
       const fy0 = sat((S.year - 2022) / 78) * 39, i0 = Math.min(Math.floor(fy0), 38);
       gl.uniform1f(Gu.uF0, i0); gl.uniform1f(Gu.uF1, i0 + 1); gl.uniform1f(Gu.uFT, fy0 - i0);
-      gl.uniform1f(Gu.uScen, S.scen); gl.uniform1f(Gu.uCompare, S.compare ? 1 : 0);
       gl.uniform1f(Gu.uSplit, split * dp);
-      const e0 = Math.floor(ENSO.frame), e1 = Math.min(e0 + 1, ENSO.h.length - 1);
+      const e0 = Math.floor(ENSO.frame), e1 = Math.min(e0 + 1, ENSO.n - 1);
       gl.uniform1f(Gu.uE0, e0); gl.uniform1f(Gu.uE1, e1); gl.uniform1f(Gu.uET, ENSO.frame - e0);
       gl.uniform1f(Gu.uWaveMax, WAVE_MAX);
       gl.uniform1f(Gu.uMilW, MIL.data ? toM : 0);
@@ -1311,28 +1111,23 @@ function startRender(R) {
 
     /* panels and readouts */
     if (tropicsOn) {
-      if (waveLive) { drawSection($("xsW"), WD.hEq, WD.seaEq, null, 1, 110, 190, [120, 150, 180]); drawHov(); }
+      if (waveLive) drawHov();
       else {
-        drawSection($("xsE"), ensoEq(ENSO.frame, ENSO.h), WD.seaEq, ensoEq(ENSO.frame, ENSO.sst), 3, 70, 230, [100, 150, 200]);
         drawN34(ENSO.frame);
-        const dd = Math.round((ENSO.frame - META.enso.peak_frame) * 30);
-        $("dayE").textContent = (dd === 0 ? "at peak" : Math.abs(dd) + " days " + (dd < 0 ? "before" : "after") + " peak");
+        const n34 = META.enso.n34, f0 = Math.floor(ENSO.frame), v = mix(n34[f0], n34[Math.min(f0 + 1, n34.length - 1)], ENSO.frame - f0);
+        $("ninoNow").textContent = (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(1);
       }
     }
     const div = $("divider");
-    const showDiv = S.compare && outT > .75 && rM.top > vh * .5;
+    const showDiv = outT > .75 && rM.top > vh * .5;
     div.hidden = !showDiv;
     if (showDiv) {
       div.style.left = split + "px";
       div.style.top = (S.H / 2 + oy - Rpx - 34) + "px"; div.style.bottom = "auto"; div.style.height = (2 * Rpx + 44) + "px";
       div.style.setProperty("--y", (Rpx + 34) + "px");
-      div.style.setProperty("--ly", "0px");
     }
-    if (outT > .2 && rM.top > 0) {
-      readouts();
-      drawChart(S.year);
-    }
-    if (MIL.data && inM > .05 && rC.top > 0) { milReadout(); drawMill(); drawSeis(); }
+    if (outT > .2 && rM.top > 0) readouts();
+    if (MIL.data && inM > .05 && rC.top > 0) { milReadout(); drawMill(); }
     if (MIL.data && !REDUCED) drawWarp(S.W / 2 + ox, S.H / 2 + oy, Rpx, MIL.playing && milOn ? MIL.rate / 50 : 0);
     if (toT < .6) { heroClock(); }
     placeTags(toT < .25 && showGlobe ? yaw : null, pitch, R3, ox * u, -oy * u, D, fc);
@@ -1377,7 +1172,8 @@ function placeTags(yaw, pitch, R3, wx, wy, D, fc) {
       let el = tagEls[used];
       if (!el) { el = document.createElement("div"); el.className = "stag"; el.innerHTML = "<i></i><span></span>"; box.append(el); tagEls[used] = el; }
       el.hidden = false; el.style.transform = `translate(${sx.toFixed(1)}px,${sy.toFixed(1)}px)`;
-      el.lastChild.textContent = `${Math.round(a.p)} hPa · ${Math.round(a.v)} m/s`;
+      el.classList.toggle("quiet", tr !== ST.tracks[0]);
+      if (tr === ST.tracks[0]) el.lastChild.textContent = `${Math.round(a.p)} hPa · ${Math.round(a.v)} m/s`;
       used++;
     }
   }
@@ -1391,16 +1187,13 @@ function heroClock() {
   const hours = M.first_hour + q * 6, day = M.first_day + Math.floor(hours / 24), hh = hours % 24;
   let d = day, m = 0; const len = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   while (d >= len[m]) { d -= len[m]; m = (m + 1) % 12; }
-  $("heroClock").textContent = `Model year ${M.model_year} · ${d + 1} ${MONTHS[m]} · ${String(hh).padStart(2, "0")} UTC`;
+  $("heroClock").textContent = `Year ${M.model_year} · ${d + 1} ${MONTHS[m]} · ${String(hh).padStart(2, "0")} UTC`;
 }
 const fmt = (v, d) => v.toFixed(d);
 function readouts() {
   const F = META.future_series, y = S.year;
   $("yearBig").textContent = Math.floor(y);
-  const set = (id, s, d) => { const v = fmt(interp(s, y), d); const e = $(id); if (e.textContent !== v) e.textContent = v; };
-  for (const [k, n] of [["vl", "1"], ["h", "3"]]) {
-    set("rW" + n, F[k].warming, 2); set("rC" + n, F[k].co2, 0); set("rE" + n, F[k].exposure, 0); set("rD" + n, F[k].days_per_person, 1); set("rI" + n, F[k].ice_nh, 1);
-  }
+  for (const [k, id] of [["vl", "rE1"], ["h", "rE3"]]) { const v = fmt(interp(F[k].exposure, y), 0), e = $(id); if (e.textContent !== v) e.textContent = v; }
 }
 
 /* ---- input ---- */
@@ -1428,49 +1221,33 @@ function bindUI() {
   });
   const end = (e) => { if (paint && !paint.moved) { const ll = toLL(e); addGust(ll[0], ll[1], 1, 0); } paint = null; };
   band.addEventListener("pointerup", end); band.addEventListener("pointercancel", () => { paint = null; });
-  $("wwb").onclick = () => { westerly(1); S.hintDone = true; };
-  $("ewb").onclick = () => { westerly(-1); S.hintDone = true; };
   $("clearW").onclick = () => { WD.oc.reset(); WD.gusts = []; WD.burst = null; WD.lastDay = -1; WD.lastForce = 0; resetHov(); buildStress(); recordHov(); uploadWave(); };
-  $("pauseW").onclick = (e) => { WD.paused = !WD.paused; e.target.textContent = WD.paused ? "Resume" : "Pause"; };
-  $("playE").onclick = (e) => { ENSO.playing = !ENSO.playing; e.target.textContent = ENSO.playing ? "Pause" : "Play"; };
-  $("playE").textContent = ENSO.playing ? "Pause" : "Play";
-  $("scrubE").addEventListener("input", (e) => { ENSO.frame = +e.target.value; ENSO.playing = false; $("playE").textContent = "Play"; });
-  const trop = $("tropics");
-  const goto = (p) => scrollTo({ top: trop.offsetTop + p * (trop.offsetHeight - innerHeight), behavior: REDUCED ? "auto" : "smooth" });
-  document.querySelectorAll(".toEnso").forEach((b) => { b.onclick = () => goto(.8); });
-  document.querySelectorAll(".toWave").forEach((b) => { b.onclick = () => goto(.12); });
-
-  const worldBtns = document.querySelectorAll("[data-w]");
-  worldBtns.forEach((b) => { b.onclick = () => {
-    worldBtns.forEach((o) => o.setAttribute("aria-pressed", o === b ? "true" : "false"));
-    const w = b.dataset.w;
-    if (w === "c") { S.compare = true; S.scen = S.scenT = .5; } else { if (S.compare) S.scen = +w === 0 ? 1 : 0; S.compare = false; S.scenT = +w; }
-  }; });
-  $("playF").onclick = (e) => {
+  $("playE").onclick = () => { ENSO.playing = !ENSO.playing; setPlay($("playE"), ENSO.playing); };
+  setPlay($("playE"), ENSO.playing);
+  $("scrubE").addEventListener("input", (e) => { ENSO.frame = +e.target.value; ENSO.playing = false; setPlay($("playE"), false); });
+  $("playF").onclick = () => {
     if (S.year >= 2100) S.year = 2022;
-    S.playF = !S.playF; S.playedOnce = true; e.target.textContent = S.playF ? "Pause" : "Play";
+    S.playF = !S.playF; S.playedOnce = true; setPlay($("playF"), S.playF);
   };
-  yrS.addEventListener("input", () => { S.year = +yrS.value; S.playF = false; S.playedOnce = true; $("playF").textContent = "Play"; });
+  setPlay($("playF"), false);
+  yrS.addEventListener("input", () => { S.year = +yrS.value; S.playF = false; S.playedOnce = true; setPlay($("playF"), false); });
+  const box = $("aboutBox");
+  $("about").onclick = () => box.showModal();
+  $("aboutClose").onclick = () => box.close();
+  box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
   $("follow").onclick = (e) => { S.follow = !S.follow; e.target.setAttribute("aria-pressed", S.follow ? "true" : "false"); };
-  $("pauseH").onclick = (e) => { ST.playing = !ST.playing; e.target.textContent = ST.playing ? "Pause" : "Play"; };
-  $("pauseH").textContent = ST.playing ? "Pause" : "Play";
-  const stopMil = () => { MIL.playing = false; MIL.played = true; $("playM").textContent = "Play"; };
-  $("playM").onclick = (e) => {
+  $("pauseH").onclick = () => { ST.playing = !ST.playing; setPlay($("pauseH"), ST.playing); };
+  setPlay($("pauseH"), ST.playing);
+  $("playM").onclick = () => {
     if (MIL.year >= 999.99) MIL.year = 0;
-    MIL.playing = !MIL.playing; MIL.played = true; e.target.textContent = MIL.playing ? "Pause" : "Play";
+    MIL.playing = !MIL.playing; MIL.played = true; setPlay($("playM"), MIL.playing);
   };
-  $("yearM").addEventListener("input", (e) => { MIL.year = +e.target.value; stopMil(); });
-  const spBtns = document.querySelectorAll("[data-sp]");
-  spBtns.forEach((b) => { b.onclick = () => { MIL.rate = +b.dataset.sp; spBtns.forEach((o) => o.setAttribute("aria-pressed", o === b ? "true" : "false")); }; });
-  document.querySelectorAll("[data-ev]").forEach((b) => { b.onclick = () => {
-    const ev = META.mil.events[b.dataset.ev], enso = b.dataset.ev === "nino" || b.dataset.ev === "nina";
-    MIL.year = enso ? ev[0] / 12 : ev[0] + .5; $("yearM").value = MIL.year; stopMil();
-    if (enso) MIL.target = LON_C;
-  }; });
+  setPlay($("playM"), false);
+  $("yearM").addEventListener("input", (e) => { MIL.year = +e.target.value; MIL.playing = false; MIL.played = true; setPlay($("playM"), false); });
 
   for (const el of [$("hero"), $("futurePin"), $("millPin")]) {
     el.addEventListener("pointerdown", (e) => {
-      if (e.target.closest("button,input,a,table,.timeline,.fut-right")) return;
+      if (e.target.closest("button,input,a,.bottom")) return;
       S.follow = false; $("follow").setAttribute("aria-pressed", "false");
       if (e.pointerType !== "mouse" && el !== $("hero") && innerWidth <= 900) return;
       S.drag = { x: e.clientX, y: e.clientY, yaw: S.yaw, p: S.pitchUser || 0 }; el.setPointerCapture(e.pointerId); el.style.cursor = "grabbing";
@@ -1495,19 +1272,18 @@ function bindUI() {
   });
   addEventListener("resize", resize);
   legend($("legW"), "−12", 0, "+12", "m");
-  legend($("legE"), "−3", 0, "+3", "K SST′");
-  legend($("legF"), "−4", 0, "+4", "K since 2022–31");
-  legend($("legM"), "−2", 0, "+2", "K against the run's mean");
+  legend($("legE"), "−3", 0, "+3", "K");
+  legend($("legF"), "−4", 0, "+4", "K");
+  legend($("legM"), "−2", 0, "+2", "K");
 }
 
 /* ---- start ---- */
 async function main() {
   const E = META.enso;
   { const M = META.storm;
-    $("heroNote").textContent = `${M.days} days of the model's own weather from year ${M.model_year} of a free-running control. Streaks are 10-m wind moving at the true speed for ${(ST.rate / 2).toFixed(1)} model days per second. Pale cloud is rain.`;
-    $("stNote").textContent = `The first scene plays ${M.days} days of a coupled control at fixed CO₂, started from 1 January 1979, with no observed forcing after that date. The network steps every 12 hours; the model's 6-hourly records between its steps are the means of their neighbors, and the page moves through them the same way. Wind and rain are the network's own fields. Streaks are particles carried by the 10-m wind at the speed of the clock, ${(ST.rate / 2).toFixed(1)} days per second (1 day per second while following the storm). Ground color and sea ice are the window's mean. Isobars every 8 hPa over the ocean. The window was picked from ${M.n_years} recorded years for its storms, so it is not a typical ${M.days} days. Rings mark cyclones found with a simple pressure tracker on the 1.5° grid, whose central pressure and peak wind are smoothed by that grid.`;
+    $("stNote").textContent = `The first scene plays ${M.days} days of the model's own weather from year ${M.model_year} of a coupled control at fixed CO₂, started from 1 January 1979, with no observed forcing after that date. The network steps every 12 hours; the model's 6-hourly records between its steps are the means of their neighbors, and the page moves through them the same way. Wind and rain are the network's own fields; pale cloud is rain. Streaks are particles carried by the 10-m wind at the speed of the clock, ${(ST.rate / 2).toFixed(1)} days per second (1 day per second while following the storm). Ground color and sea ice are the window's mean. Isobars every 8 hPa over the ocean. The window was picked from ${M.n_years} recorded years for its storms, so it is not a typical ${M.days} days. Rings mark cyclones found with a simple pressure tracker on the 1.5° grid, whose central pressure and peak wind are smoothed by that grid.`;
   }
-  $("ensoText").textContent = `Year ${Math.round(E.model_year)} of the 100-year control at fixed CO₂, with no observed forcing. Color is SST anomaly, white contours are thermocline anomaly every 10 m, and streaks are zonal stress anomaly (copper westerly, blue easterly). It is number ${E.rank} among ${E.n_events} El Niño peaks in the run, ranked by strength, and reaches ${E.peak.toFixed(1)} K.`;
+  $("ensoNote").textContent = `Year ${Math.round(E.model_year)} of the 100-year control at fixed CO₂, with no observed forcing. Color is SST anomaly, white contours are thermocline anomaly every 10 m, and streaks are zonal stress anomaly (copper westerly, blue easterly). It is number ${E.rank} among ${E.n_events} El Niño peaks in the run, ranked by strength, and reaches ${E.peak.toFixed(1)} K.`;
   $("scrubE").max = E.n34.length - 1;
   readouts();
   if (!gl) { $("nogl").style.display = "block"; return; }
@@ -1542,14 +1318,11 @@ async function main() {
   WD.tex = tex2D(5, NX, NYB, gl.RG16F, gl.RG, gl.FLOAT, new Float32Array(2 * NX * NYB), false);
 
   /* JS copies */
+  ENSO.n = ea.n;
   for (let f = 0; f < ea.n; f++) {
-    const h = new Float32Array(NX * NYB), s = new Float32Array(NX * NYB), t = new Float32Array(NX * NYB), o = 4 * f * NX * NYB;
-    for (let p = 0; p < NX * NYB; p++) {
-      s[p] = E.sst[0] + (E.sst[1] - E.sst[0]) * ed[o + 4 * p] / 255;
-      h[p] = E.h[0] + (E.h[1] - E.h[0]) * ed[o + 4 * p + 1] / 255;
-      t[p] = E.taux[0] + (E.taux[1] - E.taux[0]) * ed[o + 4 * p + 2] / 255;
-    }
-    ENSO.h.push(h); ENSO.sst.push(s); ENSO.tau.push(t);
+    const t = new Float32Array(NX * NYB), o = 4 * f * NX * NYB;
+    for (let p = 0; p < NX * NYB; p++) t[p] = E.taux[0] + (E.taux[1] - E.taux[0]) * ed[o + 4 * p + 2] / 255;
+    ENSO.tau.push(t);
   }
   for (let i = 0; i < N_W; i++) { spawnW(i); pW.age[i] = rnd() * pW.life[i]; }
   for (let i = 0; i < N_B; i++) { pB.life[i] = 1; pB.age[i] = 2; }
@@ -1569,7 +1342,7 @@ async function main() {
   MIL.state = milStates();
   for (let i = 0; i < 240; i++) MIL.warp.push({ a: rnd() * 6.2832, r: rnd(), v: .25 + rnd() * .75 });
   { const M = META.mil;
-    $("millSum").innerHTML = `Over the 1000 years the global trend is <b>${(M.trend).toFixed(4).replace("-", "−")} ± ${M.trend_se.toFixed(4)}</b> K per century, and every century's mean lies within <b>${(M.cent_hi - M.cent_lo).toFixed(2)}</b> K of the others.`; }
+    $("millSum").textContent = `Over the 1000 years the global trend is ${(M.trend).toFixed(4).replace("-", "−")} ± ${M.trend_se.toFixed(4)} K per century, and every century's mean lies within ${(M.cent_hi - M.cent_lo).toFixed(2)} K of the others.`; }
   decode("mil").then((img) => {
     const a = META.mil.atlas, d = new Uint8Array(a.n * a.w * a.h);
     for (let k = 0; k < a.n; k++) {
